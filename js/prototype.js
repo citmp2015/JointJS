@@ -1,5 +1,26 @@
 var graph = new joint.dia.Graph();
 
+function getPortType(view, magnet) {
+    var portName = magnet.getAttribute('port');
+    var inIndex = view.model.get('inPorts').indexOf(portName);
+    if (inIndex > -1) return 'IN';
+    var outIndex = view.model.get('outPorts').indexOf(portName);
+    if (outIndex > -1) return 'OUT';
+    //console.log(portName, view.model.get('inPorts'), view.model.get('outPorts'));
+}
+
+// http://stackoverflow.com/questions/30223776/in-jointjs-how-can-i-restrict-the-number-of-connections-to-each-input-to-just-o
+function isPortInUse(cellView, magnet, linkView) {
+    var links = graph.getLinks(cellView);//.getLinks(); // there should be a better way
+    for (var i = 0; i < links.length; i++) {
+        if (linkView && linkView == links[i].findView(paper)) continue;
+        if ((( cellView.model.id == links[i].get('source').id ) && ( magnet.getAttribute('port') == links[i].get('source').port) ) ||
+            (( cellView.model.id == links[i].get('target').id ) && ( magnet.getAttribute('port') == links[i].get('target').port) ))
+            return true
+    }
+    return false;
+}
+
 var paper = new joint.dia.Paper({
     el: $('#paper'),
     gridSize: 1,
@@ -7,11 +28,19 @@ var paper = new joint.dia.Paper({
     snapLinks: true,
     linkPinning: false,
     embeddingMode: true,
-    validateEmbedding: function(childView, parentView) {
+    validateMagnet: function (cellView, magnet) {
+        return !isPortInUse(cellView, magnet);
+    },
+    validateEmbedding: function (childView, parentView) {
         return parentView.model instanceof flink.Coupled;
     },
-    validateConnection: function(sourceView, sourceMagnet, targetView, targetMagnet) {
-        return sourceMagnet != targetMagnet;
+    validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
+        if (sourceView == targetView) return false; //disallow link to self
+        var sourcePortType = getPortType(sourceView, sourceMagnet);
+        if (isPortInUse(sourceView, sourceMagnet, linkView)) return false;
+        var targetPortType = getPortType(targetView, targetMagnet);
+        if (isPortInUse(targetView, targetMagnet, linkView)) return false;
+        return sourcePortType != targetPortType;
     }
 });
 
