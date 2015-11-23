@@ -15,53 +15,44 @@ var paper = new joint.dia.Paper({
     }
 });
 
-var connect = function(source, sourcePort, target, targetPort) {
+var connect = function (source, sourcePort, target, targetPort) {
     var link = new flink.Link({
-        source: { id: source.id, selector: source.getPortSelector(sourcePort) },
-        target: { id: target.id, selector: target.getPortSelector(targetPort) }
+        source: {id: source.id, selector: source.getPortSelector(sourcePort)},
+        target: {id: target.id, selector: target.getPortSelector(targetPort)}
     });
     link.addTo(graph).reparent();
 };
 
-var c1 = new flink.Coupled({
-    position: { x: 230, y: 150 },
-    size: { width: 300, height: 300 },
+var c1 = new flink.Atomic({
+    position: {x: 230, y: 150},
+    size: {width: 300, height: 300},
     inPorts: ['in'],
-    outPorts: ['out 1','out 2']
-});
-
-var a1 = new flink.Atomic({
-    position: { x: 360, y: 360 },
-    inPorts: ['xy'],
-    outPorts: ['x','y']
+    outPorts: ['out 1', 'out 2']
 });
 
 var a2 = new flink.Atomic({
-    position: { x: 50, y: 260 },
+    position: {x: 50, y: 260},
     outPorts: ['out']
 });
 
 var a3 = new flink.Atomic({
-    position: { x: 650, y: 150 },
-    size: { width: 100, height: 300 },
-    inPorts: ['a','b']
+    position: {x: 650, y: 150},
+    size: {width: 100, height: 300},
+    inPorts: ['a', 'b']
 });
 
-graph.addCells([c1, a1, a2, a3]);
 
-c1.embed(a1);
+graph.addCells([c1, a2, a3]);
 
-connect(a2,'out',c1,'in');
-connect(c1,'in',a1,'xy');
-connect(a1,'x',c1,'out 1');
-connect(a1,'y',c1,'out 2');
-connect(c1,'out 1',a3,'a');
-connect(c1,'out 2',a3,'b');
+
+connect(a2, 'out', c1, 'in');
+connect(c1, 'out 1', a3, 'a');
+connect(c1, 'out 2', a3, 'b');
 
 /* rounded corners */
 
-_.each([c1,a1,a2,a3], function(element) {
-    element.attr({ '.body': { 'rx': 6, 'ry': 6 }});
+_.each([c1, a2, a3], function (element) {
+    element.attr({'.body': {'rx': 6, 'ry': 6}});
 });
 
 /* custom highlighting */
