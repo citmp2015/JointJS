@@ -17,7 +17,7 @@ flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.
             '.': { magnet: false },
             '.body': {
                 width: 150, height: 250,
-                stroke: '#000000'
+                stroke: '#000000',
             },
             '.port-body': {
                 r: 10,
@@ -71,6 +71,7 @@ flink.Atomic = flink.Model.extend({
 
 });
 
+// Not used
 flink.Coupled = flink.Model.extend({
 
     defaults: joint.util.deepSupplement({

@@ -75,8 +75,7 @@ var highlighter = V('circle', {
 });
 
 paper.off('cell:highlight cell:unhighlight').on({
-
-    'cell:highlight': function(cellView, el, opt) {
+    'cell:highlight': function (cellView, el, opt) {
 
         if (opt.embedding) {
             V(el).addClass('highlighted-parent');
@@ -84,12 +83,12 @@ paper.off('cell:highlight cell:unhighlight').on({
 
         if (opt.connecting) {
             var bbox = V(el).bbox(false, paper.viewport);
-            highlighter.translate(bbox.x + 10, bbox.y + 10, { absolute: true });
+            highlighter.translate(bbox.x + 10, bbox.y + 10, {absolute: true});
             V(paper.viewport).append(highlighter);
         }
     },
 
-    'cell:unhighlight': function(cellView, el, opt) {
+    'cell:unhighlight': function (cellView, el, opt) {
 
         if (opt.embedding) {
             V(el).removeClass('highlighted-parent');
