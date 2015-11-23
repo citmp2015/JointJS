@@ -1,10 +1,15 @@
-/*#paper {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#paper {
     top: 0;
     bottom: 0;
     position: absolute;
     width: 100%;
     display: block;
-}*/
+}
 
 /* elements */
 .devs text {
