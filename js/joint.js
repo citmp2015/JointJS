@@ -7404,8 +7404,8 @@ joint.dia.Paper = Backbone.View.extend({
 
     options: {
 
-        width: 800,
-        height: 600,
+        width: '100%', // TODO find a way to do this without modifying JointJS
+        height: '100%', // TODO find a way to do this without modifying JointJS
         origin: { x: 0, y: 0 }, // x,y coordinates in top-left corner
         gridSize: 1,
         perpendicularLinks: false,
