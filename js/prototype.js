@@ -100,3 +100,52 @@ paper.off('cell:highlight cell:unhighlight').on({
         }
     }
 });
+
+function createSimple(inCnt, outCnt, label) {
+    var portsIn = _.range(inCnt).map(function (a) {
+        return "IN" + a;
+    });
+    var portsOut = _.range(outCnt).map(function (a) {
+        return "OUT" + a;
+    });
+    return new flink.Atomic({
+        position: {x: 0, y: 0},
+        inPorts: portsIn,
+        outPorts: portsOut,
+        attrs: {
+            '.label': {text: label}
+        }
+    })
+}
+
+cellTypes = {
+    'input': function () {
+        return createSimple(0, 1, 'Input')
+    },
+    'map': function () {
+        return createSimple(1, 1, 'Map')
+    },
+    'filter': function () {
+        return createSimple(1, 1, 'Filter')
+    },
+    'join': function () {
+        return createSimple(2, 1, 'Join')
+    },
+    'sink': function () {
+        return createSimple(1, 0, 'Sink')
+    }
+};
+
+$('.creator').on('click', function (evt) {
+    var type = $(evt.target).data('type');
+    newCell = cellTypes[type]();
+    graph.addCell(newCell);
+});
+
+$('.jsonout').on('click', function () {
+    console.log(JSON.stringify(graph.toJSON()));
+});
+
+$('.clear').on('click', function () {
+    graph.clear();
+});
