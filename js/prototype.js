@@ -6,7 +6,6 @@ function getPortType(view, magnet) {
     if (inIndex > -1) return 'IN';
     var outIndex = view.model.get('outPorts').indexOf(portName);
     if (outIndex > -1) return 'OUT';
-    //console.log(portName, view.model.get('inPorts'), view.model.get('outPorts'));
 }
 
 // http://stackoverflow.com/questions/30223776/in-jointjs-how-can-i-restrict-the-number-of-connections-to-each-input-to-just-o
@@ -21,6 +20,11 @@ function isPortInUse(cellView, magnet, linkView) {
     return false;
 }
 
+// TODO add cycle detection in graph
+function hasCycle() {
+    return false;
+}
+
 var paper = new joint.dia.Paper({
     el: $('#paper'),
     gridSize: 1,
@@ -29,6 +33,8 @@ var paper = new joint.dia.Paper({
     linkPinning: false,
     embeddingMode: true,
     validateMagnet: function (cellView, magnet) {
+        var portType = getPortType(cellView, magnet);
+        if (portType == 'OUT') return true; //output may be used several times
         return !isPortInUse(cellView, magnet);
     },
     validateEmbedding: function (childView, parentView) {
@@ -36,8 +42,9 @@ var paper = new joint.dia.Paper({
     },
     validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
         if (sourceView == targetView) return false; //disallow link to self
+        if (hasCycle()) return false;
         var sourcePortType = getPortType(sourceView, sourceMagnet);
-        if (isPortInUse(sourceView, sourceMagnet, linkView)) return false;
+        //if (isPortInUse(sourceView, sourceMagnet, linkView)) return false; output may be used several times
         var targetPortType = getPortType(targetView, targetMagnet);
         if (isPortInUse(targetView, targetMagnet, linkView)) return false;
         return sourcePortType != targetPortType;
