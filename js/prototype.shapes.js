@@ -71,23 +71,6 @@ flink.Atomic = flink.Model.extend({
 
 });
 
-// Not used
-flink.Coupled = flink.Model.extend({
-
-    defaults: joint.util.deepSupplement({
-
-        type: 'devs.Coupled',
-        size: { width: 200, height: 300 },
-        attrs: {
-            '.body': { fill: 'seaGreen' },
-            '.label': { text: 'Coupled' },
-            '.inPorts .port-body': { fill: 'PaleGreen' },
-            '.outPorts .port-body': { fill: 'Tomato' }
-        }
-
-    }, flink.Model.prototype.defaults)
-});
-
 flink.Link = joint.dia.Link.extend({
     defaults: {
         type: 'devs.Link',
