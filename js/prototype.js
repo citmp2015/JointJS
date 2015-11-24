@@ -31,7 +31,6 @@ var paper = new joint.dia.Paper({
     model: graph,
     snapLinks: true,
     linkPinning: false,
-    embeddingMode: true,
     validateMagnet: function (cellView, magnet) {
         var portType = getPortType(cellView, magnet);
         if (portType == 'OUT') return true; //output may be used several times
@@ -161,6 +160,11 @@ cellTypes = {
         return createSimple(1, 0, 'Sink')
     }
 };
+
+paper.on('cell:contextmenu', function(cellView, e) {
+    cellView.model.remove();
+    e.preventDefault(); // stop right click menu from appearing
+});
 
 $('.creator').on('click', function (evt) {
     var type = $(evt.target).data('type');
