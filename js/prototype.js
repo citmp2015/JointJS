@@ -82,6 +82,9 @@ cellTypes = {
     },
     'sink': function () {
         return createSimple(1, 0, 'Sink')
+    },
+    'reduce': function() {
+        return createSimple(1, 1, 'Reduce')
     }
 };
 
