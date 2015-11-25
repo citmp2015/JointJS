@@ -10,7 +10,7 @@ function getPortType(view, magnet) {
 
 // http://stackoverflow.com/questions/30223776/in-jointjs-how-can-i-restrict-the-number-of-connections-to-each-input-to-just-o
 function isPortInUse(cellView, magnet, linkView) {
-    var links = graph.getLinks(cellView);//.getLinks(); // there should be a better way
+    var links = graph.getLinks(cellView);
     for (var i = 0; i < links.length; i++) {
         if (linkView && linkView == links[i].findView(paper)) continue;
         if ((( cellView.model.id == links[i].get('source').id ) && ( magnet.getAttribute('port') == links[i].get('source').port) ) ||
@@ -22,6 +22,7 @@ function isPortInUse(cellView, magnet, linkView) {
 
 // TODO add cycle detection in graph
 function hasCycle() {
+    //graph.toGraphLib(); // TODO read http://jointjs.com/rappid/docs/layout/directedGraph
     return false;
 }
 
@@ -30,14 +31,13 @@ var paper = new joint.dia.Paper({
     gridSize: 1,
     model: graph,
     snapLinks: true,
+    defaultLink: new flink.Link, // http://stackoverflow.com/questions/24794263/jointjs-creating-custom-shapes-and-specifying-their-default-link
     linkPinning: false,
+    // validate* -> return true if it may be used
     validateMagnet: function (cellView, magnet) {
         var portType = getPortType(cellView, magnet);
         if (portType == 'OUT') return true; //output may be used several times
         return !isPortInUse(cellView, magnet);
-    },
-    validateEmbedding: function (childView, parentView) {
-        return parentView.model instanceof flink.Coupled;
     },
     validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
         if (sourceView == targetView) return false; //disallow link to self

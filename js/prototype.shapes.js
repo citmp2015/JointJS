@@ -17,7 +17,7 @@ flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.
             '.': { magnet: false },
             '.body': {
                 width: 150, height: 250,
-                stroke: '#000000',
+                stroke: '#000000'
             },
             '.port-body': {
                 r: 10,
@@ -71,10 +71,11 @@ flink.Atomic = flink.Model.extend({
 
 });
 
+// TODO add arrow for direction?
 flink.Link = joint.dia.Link.extend({
     defaults: {
         type: 'devs.Link',
-        attrs: { '.connection' : { 'stroke-width' :  2 }}
+        attrs: {'.connection' : { 'stroke-width' :  2 }}
     }
 });
 
