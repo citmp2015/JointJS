@@ -61,6 +61,7 @@ function createSimple(inCnt, outCnt, label) {
     return new flink.Atomic({
         position: {x: 0, y: 0},
         inPorts: portsIn,
+        java: "package blab.ablab.alba\nimport stuff",
         outPorts: portsOut,
         attrs: {
             '.label': {text: label}
