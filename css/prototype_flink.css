@@ -1,0 +1,94 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+svg {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    height: 100%;
+    width: 100%
+}
+
+#paper {
+    top: 40px;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    display: block;
+}
+
+/* elements */
+.flink text {
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.flink .body {
+    fill: #ffffff;
+    stroke: #31d0c6;
+    stroke-width: 6px;
+}
+
+.flink .label {
+    fill: #31d0c6;
+    font-size: 16px;
+}
+
+.flink .port-body {
+    stroke: #ffffff;
+    stroke-width: 3px;
+    fill: #7c68fc;
+}
+
+.flink .port-body:hover {
+    opacity: 1;
+    fill: #ff7e5d;
+}
+
+.flink .port-label {
+    fill: #7c68fc;
+}
+
+.flink.Atomic .body {
+    stroke: #feb663;
+}
+
+.flink.Atomic .label {
+    fill: #feb663;
+}
+
+/* links */
+
+.link .connection {
+    stroke: #4B4F6A;
+    stroke-width: 4px;
+}
+
+.link .marker-arrowhead, .link .marker-vertex {
+    fill: #31D0C6;
+}
+
+.link .marker-arrowhead:hover {
+    fill: #F39C12;
+}
+
+.link-tools .tool-remove circle {
+    fill: #fe854f;
+}
+
+/* highlighting */
+
+.flink.highlighted-parent .body {
+    stroke: #fe854f;
+    transition: stroke 1s;
+}
+
+.flink.highlighted-parent .label {
+    fill: #fe854f;
+    transition: fill 1s;
+    text-decoration: underline;
+}
+
