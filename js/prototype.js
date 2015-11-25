@@ -23,6 +23,7 @@ function isPortInUse(cellView, magnet, linkView) {
 // TODO add cycle detection in graph
 function hasCycle() {
     //graph.toGraphLib(); // TODO read http://jointjs.com/rappid/docs/layout/directedGraph
+    //needs graphlib: https://github.com/cpettitt/graphlib/releases
     return false;
 }
 
@@ -157,6 +158,7 @@ var highlighter = V('circle', {
     'pointer-events': 'none'
 });
 
+// this overrides how the port is marked
 paper.off('cell:highlight cell:unhighlight').on({
     'cell:highlight': function (cellView, el, opt) {
 
