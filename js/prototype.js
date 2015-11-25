@@ -43,9 +43,9 @@ var paper = new joint.dia.Paper({
         if (sourceView == targetView) return false; //disallow link to self
         if (hasCycle()) return false;
         var sourcePortType = getPortType(sourceView, sourceMagnet);
-        //if (isPortInUse(sourceView, sourceMagnet, linkView)) return false; output may be used several times
+        if (sourcePortType == 'IN' && isPortInUse(sourceView, sourceMagnet, linkView)) return false; //output may be used several times
         var targetPortType = getPortType(targetView, targetMagnet);
-        if (isPortInUse(targetView, targetMagnet, linkView)) return false;
+        if (targetPortType == 'IN' && isPortInUse(targetView, targetMagnet, linkView)) return false;
         return sourcePortType != targetPortType;
     }
 });
@@ -87,7 +87,7 @@ cellTypes = {
 
 paper.on('cell:contextmenu', function(cellView, e) {
     cellView.model.remove();
-    e.preventDefault(); // stop right click menu from appearing
+    e.preventDefault();
 });
 
 $('.creator').on('click', function (evt) {
